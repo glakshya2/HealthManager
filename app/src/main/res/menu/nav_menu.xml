@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="nav_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/records"
+            android:title="Health Records" />
+        <item
+            android:id="@+id/tracking"
+            android:title="Health Tracking" />
+        <item
+            android:id="@+id/nutrition"
+            android:title="Nutrition" />
+        <item
+            android:id="@+id/reminders"
+            android:title="Reminders" />
+        <item
+            android:id="@+id/profile"
+            android:title="Profile" />
+        <item
+            android:id="@+id/logout"
+            android:title="Logout" />
+    </group>
+</menu>

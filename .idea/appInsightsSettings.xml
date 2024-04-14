@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.glakshya2.healthmanager" />
+                  <option name="mobileSdkAppId" value="1:496497123953:android:66520dc6b3ea3c63e6f1d0" />
+                  <option name="projectId" value="health-manager-adf07" />
+                  <option name="projectNumber" value="496497123953" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
