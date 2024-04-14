@@ -57,9 +57,7 @@ public class SignIn extends AppCompatActivity {
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        googleSignInBtn.setOnClickListener(v -> {
-            signInGoogle();
-        });
+        googleSignInBtn.setOnClickListener(v -> signInGoogle());
     }
 
     private void signInGoogle() {

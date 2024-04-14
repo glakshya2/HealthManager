@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .requestEmail()
                 .build();
         GoogleSignIn.getClient(this, googleSignInOptions).revokeAccess()
-                .addOnCompleteListener(this, task -> {
-                    startActivity(new Intent(this, SignIn.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                });
+                .addOnCompleteListener(this, task -> startActivity(new Intent(this, SignIn.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 }
