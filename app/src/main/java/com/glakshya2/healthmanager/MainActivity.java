@@ -10,13 +10,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.glakshya2.healthmanager.nutrition.Nutrition;
+import com.glakshya2.healthmanager.profile.Profile;
+import com.glakshya2.healthmanager.records.HealthRecords;
+import com.glakshya2.healthmanager.reminders.Reminders;
+import com.glakshya2.healthmanager.tracking.HealthTracking;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChildToHost {
 
     FirebaseAuth firebaseAuth;
     DrawerLayout drawerLayout;
@@ -48,7 +56,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int menuItemId = menuItem.getItemId();
-        if (menuItemId == R.id.logout) {
+        if (menuItemId == R.id.records) {
+            loadFragment(new HealthRecords());
+            toolbar.setTitle("Health Records");
+        } else if (menuItemId == R.id.tracking) {
+            loadFragment(new HealthTracking());
+            toolbar.setTitle("Health Tracking");
+        } else if (menuItemId == R.id.nutrition) {
+            loadFragment(new Nutrition());
+            toolbar.setTitle("Nutrition");
+        } else if (menuItemId == R.id.reminders) {
+            loadFragment(new Reminders());
+            toolbar.setTitle("Reminders");
+        } else if (menuItemId == R.id.profile) {
+            loadFragment(new Profile());
+            toolbar.setTitle("Profile");
+        } else if (menuItemId == R.id.logout) {
             signOut();
         }
         return true;
@@ -63,5 +86,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         GoogleSignIn.getClient(this, googleSignInOptions).revokeAccess()
                 .addOnCompleteListener(this, task -> startActivity(new Intent(this, SignIn.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
+    }
+
+    void loadFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void transferData(Fragment fragment) {
+        loadFragment(fragment);
     }
 }

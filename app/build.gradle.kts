@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.picasso)
+    implementation(libs.picasso.transformations)
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -37,6 +39,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

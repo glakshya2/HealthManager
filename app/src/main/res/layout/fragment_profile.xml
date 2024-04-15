@@ -11,18 +11,18 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/emailTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="72dp"
             android:text="Email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintEnd_toStartOf="@+id/profileIv"
+            app:layout_constraintHorizontal_bias="0.471"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/displayNameTV" />
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/ageEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="68dp"
@@ -32,28 +32,54 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            android:autofillHints="Age"
+            app:layout_constraintTop_toBottomOf="@+id/emailTv" />
 
         <EditText
-            android:id="@+id/editTextNumberDecimal"
+            android:id="@+id/weightEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="76dp"
             android:ems="10"
             android:hint="Weight(kg)"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
+            android:autofillHints="Weight(kg)"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintTop_toBottomOf="@+id/ageEt" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="52dp"
             android:text="Save"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal" />
+            app:layout_constraintTop_toBottomOf="@+id/weightEt" />
+
+        <TextView
+            android:id="@+id/displayNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="Display Name"
+            app:layout_constraintEnd_toStartOf="@+id/profileIv"
+            app:layout_constraintHorizontal_bias="0.459"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profileIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.833"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
