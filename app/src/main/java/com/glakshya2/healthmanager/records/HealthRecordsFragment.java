@@ -14,20 +14,19 @@ import com.glakshya2.healthmanager.ChildToHost;
 import com.glakshya2.healthmanager.R;
 
 
-public class HealthRecords extends Fragment {
+public class HealthRecordsFragment extends Fragment {
 
 
     ChildToHost childToHost;
     Button addButton;
 
-    public HealthRecords() {
+    public HealthRecordsFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        childToHost = (ChildToHost) context;
     }
 
     @Override
@@ -36,7 +35,7 @@ public class HealthRecords extends Fragment {
         View view = inflater.inflate(R.layout.fragment_health_records, container, false);
 
         addButton = view.findViewById(R.id.addHealthRecord);
-        addButton.setOnClickListener(v -> childToHost.transferData(new AddHealthRecords()));
+        addButton.setOnClickListener(v -> childToHost.transferData(new AddHealthRecordsFragment()));
         return view;
     }
 }

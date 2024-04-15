@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".records.AddHealthRecords">
+    tools:context=".records.AddHealthRecordsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="Type"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -34,6 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="Name"
             app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
 
         <EditText
@@ -46,6 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="Date"
             app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
 
         <EditText
@@ -60,6 +63,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="Description"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
         <Button

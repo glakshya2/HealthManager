@@ -33,6 +33,9 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.picasso.transformations)
 
+    implementation(libs.play.services.fitness)
+    implementation(libs.play.services.auth)
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

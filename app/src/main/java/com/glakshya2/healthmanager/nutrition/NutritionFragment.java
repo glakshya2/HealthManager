@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.glakshya2.healthmanager.ChildToHost;
 import com.glakshya2.healthmanager.R;
 
-public class Nutrition extends Fragment {
+public class NutritionFragment extends Fragment {
 
     Button addMeal;
     ChildToHost childToHost;
 
-    public Nutrition() {
+    public NutritionFragment() {
         // Required empty public constructor
     }
 
@@ -33,9 +33,7 @@ public class Nutrition extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nutrition, container, false);
         addMeal = view.findViewById(R.id.addMealBtn);
-        addMeal.setOnClickListener(v -> {
-            childToHost.transferData(new AddNutrition());
-        });
+        addMeal.setOnClickListener(v -> childToHost.transferData(new AddNutritionFragment()));
         return view;
     }
 }

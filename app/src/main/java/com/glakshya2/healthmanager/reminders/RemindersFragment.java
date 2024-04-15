@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.glakshya2.healthmanager.ChildToHost;
 import com.glakshya2.healthmanager.R;
 
-public class Reminders extends Fragment {
+public class RemindersFragment extends Fragment {
 
     ChildToHost childToHost;
     Button addReminder;
 
-    public Reminders() {
+    public RemindersFragment() {
         // Required empty public constructor
     }
 
@@ -34,7 +34,7 @@ public class Reminders extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reminders, container, false);
         addReminder = view.findViewById(R.id.button5);
-        addReminder.setOnClickListener(v -> childToHost.transferData(new AddReminder()));
+        addReminder.setOnClickListener(v -> childToHost.transferData(new AddReminderFragment()));
         return view;
     }
 }

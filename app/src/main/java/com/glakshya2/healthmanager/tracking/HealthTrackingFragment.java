@@ -11,10 +11,10 @@ import com.glakshya2.healthmanager.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HealthTracking#newInstance} factory method to
+ * Use the {@link HealthTrackingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HealthTracking extends Fragment {
+public class HealthTrackingFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +25,7 @@ public class HealthTracking extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HealthTracking() {
+    public HealthTrackingFragment() {
         // Required empty public constructor
     }
 
@@ -38,8 +38,8 @@ public class HealthTracking extends Fragment {
      * @return A new instance of fragment HealthTracking.
      */
     // TODO: Rename and change types and number of parameters
-    public static HealthTracking newInstance(String param1, String param2) {
-        HealthTracking fragment = new HealthTracking();
+    public static HealthTrackingFragment newInstance(String param1, String param2) {
+        HealthTrackingFragment fragment = new HealthTrackingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

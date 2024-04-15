@@ -1,4 +1,4 @@
-package com.glakshya2.healthmanager.home;
+package com.glakshya2.healthmanager.records;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import com.glakshya2.healthmanager.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Home#newInstance} factory method to
+ * Use the {@link AddHealthRecordsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Home extends Fragment {
+public class AddHealthRecordsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +25,7 @@ public class Home extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Home() {
+    public AddHealthRecordsFragment() {
         // Required empty public constructor
     }
 
@@ -35,11 +35,11 @@ public class Home extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Home.
+     * @return A new instance of fragment AddHealthRecords.
      */
     // TODO: Rename and change types and number of parameters
-    public static Home newInstance(String param1, String param2) {
-        Home fragment = new Home();
+    public static AddHealthRecordsFragment newInstance(String param1, String param2) {
+        AddHealthRecordsFragment fragment = new AddHealthRecordsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,6 +60,6 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_add_health_records, container, false);
     }
 }

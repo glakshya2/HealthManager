@@ -13,6 +13,7 @@ picasso = "2.71828"
 picassoTransformations = "2.4.0"
 playServicesAuth = "21.0.0"
 firebaseDatabase = "20.3.1"
+playServicesFitness = "21.1.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -28,6 +29,7 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 picasso-transformations = { module = "jp.wasabeef:picasso-transformations", version.ref = "picassoTransformations" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
