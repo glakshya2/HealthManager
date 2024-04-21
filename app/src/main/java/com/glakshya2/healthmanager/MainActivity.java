@@ -23,6 +23,7 @@ import com.glakshya2.healthmanager.records.AddHealthRecordsFragment;
 import com.glakshya2.healthmanager.records.HealthRecordsFragment;
 import com.glakshya2.healthmanager.reminders.AddReminderFragment;
 import com.glakshya2.healthmanager.reminders.RemindersFragment;
+import com.glakshya2.healthmanager.schema.Nutrition;
 import com.glakshya2.healthmanager.schema.Profile;
 import com.glakshya2.healthmanager.schema.User;
 import com.glakshya2.healthmanager.tracking.HealthTrackingFragment;
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user = new User();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -135,10 +135,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Add Meal");
         } else if (fragment instanceof NutritionFragment) {
             toolbar.setTitle("Nutrition");
+            NutritionFragment nutritionFragment = (NutritionFragment) fragment;
+            if (user != null) {
+                nutritionFragment.recieveData(user.getNutrition());
+            }
         } else if (fragment instanceof ProfileFragment) {
             toolbar.setTitle("Profile");
             ProfileFragment profileFragment = (ProfileFragment) fragment;
-            if (user != null && profileFragment != null) {
+            if (user != null) {
                 profileFragment.receiveData(user.getProfile());
             }
         } else if (fragment instanceof AddHealthRecordsFragment) {
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void transferData(Fragment fragment) {
+    public void setFragment(Fragment fragment) {
         loadFragment(fragment);
     }
 
@@ -163,5 +167,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void transferData(Profile profile) {
         user.setProfile(profile);
         databaseReference.setValue(user);
+    }
+
+    @Override
+    public void transferData(Nutrition nutrition) {
+        user.setNutrition(nutrition);
+        databaseReference.setValue(user);
+        loadFragment(new NutritionFragment());
     }
 }

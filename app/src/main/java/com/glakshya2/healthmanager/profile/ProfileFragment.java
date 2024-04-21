@@ -50,11 +50,7 @@ public class ProfileFragment extends Fragment {
         childToHost = (ChildToHost) context;
     }
 
-    public void receiveData(Profile profile) {
-        if (profile != null) {
-            this.profile = profile;
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +90,15 @@ public class ProfileFragment extends Fragment {
         if (profile != null) {
             ageEt.setText(String.valueOf(profile.getAge()));
             weightEt.setText(String.valueOf(profile.getWeight()));
+        }
+    }
+
+    public void receiveData(Profile profile) {
+        if (profile != null) {
+            this.profile = profile;
+        } else {
+            this.profile.setAge(0);
+            this.profile.setWeight(0);
         }
     }
 }

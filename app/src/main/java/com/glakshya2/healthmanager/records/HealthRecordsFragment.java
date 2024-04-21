@@ -35,7 +35,7 @@ public class HealthRecordsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_health_records, container, false);
 
         addButton = view.findViewById(R.id.addHealthRecord);
-        addButton.setOnClickListener(v -> childToHost.transferData(new AddHealthRecordsFragment()));
+        addButton.setOnClickListener(v -> childToHost.setFragment(new AddHealthRecordsFragment()));
         return view;
     }
 }

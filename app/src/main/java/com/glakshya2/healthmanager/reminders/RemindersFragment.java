@@ -34,7 +34,7 @@ public class RemindersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reminders, container, false);
         addReminder = view.findViewById(R.id.button5);
-        addReminder.setOnClickListener(v -> childToHost.transferData(new AddReminderFragment()));
+        addReminder.setOnClickListener(v -> childToHost.setFragment(new AddReminderFragment()));
         return view;
     }
 }
