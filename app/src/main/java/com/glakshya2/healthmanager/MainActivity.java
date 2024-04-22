@@ -1,6 +1,8 @@
 package com.glakshya2.healthmanager;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -25,9 +28,11 @@ import com.glakshya2.healthmanager.records.HealthRecordsFragment;
 import com.glakshya2.healthmanager.records.ViewRecord;
 import com.glakshya2.healthmanager.reminders.AddReminderFragment;
 import com.glakshya2.healthmanager.reminders.RemindersFragment;
+import com.glakshya2.healthmanager.reminders.ViewReminderFragment;
 import com.glakshya2.healthmanager.schema.History;
 import com.glakshya2.healthmanager.schema.Nutrition;
 import com.glakshya2.healthmanager.schema.Profile;
+import com.glakshya2.healthmanager.schema.ReminderList;
 import com.glakshya2.healthmanager.schema.User;
 import com.glakshya2.healthmanager.tracking.HealthTrackingFragment;
 import com.glakshya2.healthmanager.utils.ChildToHost;
@@ -90,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        loadFragment(new HomeFragment());
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM}, 100);
+        }
     }
 
 
@@ -161,10 +173,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Add Reminder");
         } else if (fragment instanceof RemindersFragment) {
             toolbar.setTitle("Reminders");
+            RemindersFragment remindersFragment = (RemindersFragment) fragment;
+            if (user != null) {
+                remindersFragment.receiveData(user.getReminderList());
+            }
         } else if (fragment instanceof HealthTrackingFragment) {
             toolbar.setTitle("Health Tracking");
         } else if (fragment instanceof ViewRecord) {
             toolbar.setTitle("View Record");
+        } else if (fragment instanceof ViewReminderFragment) {
+            toolbar.setTitle("View Reminder");
         }
     }
 
@@ -194,11 +212,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void transferData(ReminderList reminderList) {
+        user.setReminderList(reminderList);
+        databaseReference.setValue(user);
+        loadFragment(new RemindersFragment());
+    }
+
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
-        if (currentFragment instanceof ViewRecord) {
+        if (currentFragment instanceof HomeFragment) {
+            super.onBackPressed();
+        } else if (currentFragment instanceof ViewRecord || currentFragment instanceof AddHealthRecordsFragment) {
             loadFragment(new HealthRecordsFragment());
+        } else if (currentFragment instanceof ViewReminderFragment || currentFragment instanceof AddReminderFragment) {
+            loadFragment(new RemindersFragment());
         } else {
             loadFragment(new HomeFragment());
         }

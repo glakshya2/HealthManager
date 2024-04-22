@@ -8,16 +8,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.glakshya2.healthmanager.R;
+import com.glakshya2.healthmanager.schema.Reminder;
+import com.glakshya2.healthmanager.schema.ReminderList;
 import com.glakshya2.healthmanager.utils.ChildToHost;
+
+import java.util.ArrayList;
 
 public class RemindersFragment extends Fragment {
 
     ChildToHost childToHost;
     Button addReminder;
-
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+    ReminderList reminderList;
     public RemindersFragment() {
         // Required empty public constructor
     }
@@ -33,8 +42,31 @@ public class RemindersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reminders, container, false);
-        addReminder = view.findViewById(R.id.button5);
+        recyclerView = view.findViewById(R.id.remindersRecyclerView);
+        addReminder = view.findViewById(R.id.addReminderButton);
         addReminder.setOnClickListener(v -> childToHost.setFragment(new AddReminderFragment()));
+
         return view;
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance) {
+        if (this.reminderList != null) {
+            ReminderHelper.reminderArrayList = this.reminderList.getReminderArrayList();
+        } else {
+            ReminderHelper.reminderArrayList = new ArrayList<Reminder>();
+        }
+        adapter = new ReminderAdapter(getActivity().getApplicationContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        recyclerView.setHasFixedSize(true);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void receiveData(ReminderList reminderList) {
+        if (reminderList != null) {
+            this.reminderList = reminderList;
+        } else {
+            this.reminderList = new ReminderList(new ArrayList<Reminder>());
+        }
     }
 }

@@ -1,65 +1,106 @@
 package com.glakshya2.healthmanager.reminders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.glakshya2.healthmanager.R;
+import com.glakshya2.healthmanager.schema.Reminder;
+import com.glakshya2.healthmanager.schema.ReminderList;
+import com.glakshya2.healthmanager.utils.ChildToHost;
+import com.glakshya2.healthmanager.utils.DatePickerFragment;
+import com.glakshya2.healthmanager.utils.TimePickerFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddReminderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AddReminderFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public AddReminderFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddReminder.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddReminderFragment newInstance(String param1, String param2) {
-        AddReminderFragment fragment = new AddReminderFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    EditText titleEt, descriptionEt;
+    TextView dateTv, timeTv;
+    Switch recurringSwitch;
+    Spinner recurrenceTypeSpinner;
+    Button saveButton;
+    ChildToHost childToHost;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        childToHost = (ChildToHost) context;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_reminder, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_reminder, container, false);
+
+        titleEt = view.findViewById(R.id.addReminderTitleEt);
+        descriptionEt = view.findViewById(R.id.addReminderDescriptionEt);
+        dateTv = view.findViewById(R.id.addReminderDateTv);
+        timeTv = view.findViewById(R.id.addReminderTimeTv);
+        recurringSwitch = view.findViewById(R.id.addReminderRecurringSwitch);
+        recurrenceTypeSpinner = view.findViewById(R.id.addReminderRecurrenceTypeSpinner);
+        saveButton = view.findViewById(R.id.addReminderSaveButton);
+        dateTv.setOnClickListener(v -> showDatePicker());
+        timeTv.setOnClickListener(v -> showTimePicker());
+        recurrenceTypeSpinner.setVisibility(View.GONE);
+        recurringSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                recurrenceTypeSpinner.setVisibility(View.VISIBLE);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                        getContext(),
+                        R.array.recurrence_types,
+                        android.R.layout.simple_spinner_item
+                );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                recurrenceTypeSpinner.setAdapter(adapter);
+            } else {
+                recurrenceTypeSpinner.setVisibility(View.GONE);
+            }
+        });
+
+        saveButton.setOnClickListener(v -> {
+            String title = titleEt.getText().toString();
+            String description = descriptionEt.getText().toString();
+            String dateTime = dateTv.getText().toString() + " " + timeTv.getText().toString();
+            boolean isRecurring = recurringSwitch.isChecked();
+            String recurrenceType = isRecurring ? recurrenceTypeSpinner.getSelectedItem().toString() : null;
+            boolean isActive = true;
+
+            ReminderHelper.reminderArrayList.add(new Reminder(title, description, dateTime, isRecurring, recurrenceType, isActive));
+            childToHost.transferData(new ReminderList(ReminderHelper.reminderArrayList));
+
+        });
+        return view;
+    }
+
+    private void showDatePicker() {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setListener((year, month, dayOfMonth) -> {
+            String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+            dateTv.setText(selectedDate);
+        });
+        datePickerFragment.show(getChildFragmentManager(), "datePicker");
+    }
+
+    private void showTimePicker() {
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.setListener((view, hourOfDay, minute) -> {
+            String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+            timeTv.setText(selectedTime);
+        });
+        timePickerFragment.show(getChildFragmentManager(), "timePicker");
     }
 }

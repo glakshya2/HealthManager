@@ -19,6 +19,7 @@ firebaseDatabase = "20.3.1"
 playServicesFitness = "21.1.0"
 firebaseFirestore = "24.11.1"
 firebaseStorage = "20.3.0"
+workRuntimeKtx = "2.9.0"
 
 [libraries]
 android-pdf-viewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
@@ -40,6 +41,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.play.services.fitness)
     implementation(libs.play.services.auth)
 
+    implementation(libs.work.runtime.ktx)
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
