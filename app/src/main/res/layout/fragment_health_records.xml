@@ -11,30 +11,20 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/addHealthRecord"
+            android:id="@+id/records_addHealthRecord"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Sort"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addHealthRecord" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="409dp"
-            android:layout_height="629dp"
-            android:layout_marginTop="1dp"
+            android:id="@+id/records_recyclerView"
+            android:layout_width="413dp"
+            android:layout_height="677dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            app:layout_constraintTop_toBottomOf="@+id/records_addHealthRecord" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

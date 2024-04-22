@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.glakshya2.healthmanager.R;
 import com.glakshya2.healthmanager.schema.Meal;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class NutritionAdapter extends RecyclerView.Adapter<MealViewHolder> {
 
     @NonNull
     Context context;
 
-    List<Meal> mealList;
+    ArrayList<Meal> mealList;
 
     public NutritionAdapter(@NonNull Context context) {
         this.context = context;

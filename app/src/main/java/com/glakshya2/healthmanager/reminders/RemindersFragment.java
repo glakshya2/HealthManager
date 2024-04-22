@@ -10,8 +10,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.glakshya2.healthmanager.ChildToHost;
 import com.glakshya2.healthmanager.R;
+import com.glakshya2.healthmanager.utils.ChildToHost;
 
 public class RemindersFragment extends Fragment {
 

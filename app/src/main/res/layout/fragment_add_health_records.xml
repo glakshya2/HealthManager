@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/addRecord_typeEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="84dp"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/addRecord_nameEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
@@ -36,23 +36,23 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             android:autofillHints="Name"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+            app:layout_constraintTop_toBottomOf="@+id/addRecord_typeEt" />
 
-        <EditText
-            android:id="@+id/editTextDate"
+        <TextView
+            android:id="@+id/addRecord_dateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
+            android:autofillHints="Date"
             android:ems="10"
-            android:inputType="date"
+            android:text="Date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="Date"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+            app:layout_constraintTop_toBottomOf="@+id/addRecord_nameEt" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/addRecord_descEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
@@ -64,27 +64,39 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             android:autofillHints="Description"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+            app:layout_constraintTop_toBottomOf="@+id/addRecord_dateTv" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/addRecord_addFileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="92dp"
             android:text="Add File"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+            app:layout_constraintTop_toBottomOf="@+id/addRecord_descEt" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/addRecord_saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
             android:text="Save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/addRecord_addFileBtn" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

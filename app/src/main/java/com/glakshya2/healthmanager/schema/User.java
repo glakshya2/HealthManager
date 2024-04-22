@@ -3,13 +3,23 @@ package com.glakshya2.healthmanager.schema;
 public class User {
     private Profile profile;
     private Nutrition nutrition;
+    private History history;
 
-    public User(Profile profile, Nutrition nutrition) {
+    public User(Profile profile, Nutrition nutrition, History history) {
         this.profile = profile;
         this.nutrition = nutrition;
+        this.history = history;
     }
 
     public User() {
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
     }
 
     public Nutrition getNutrition() {

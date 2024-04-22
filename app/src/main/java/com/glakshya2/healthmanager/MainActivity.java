@@ -15,18 +15,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.glakshya2.healthmanager.auth.SignIn;
 import com.glakshya2.healthmanager.home.HomeFragment;
 import com.glakshya2.healthmanager.nutrition.AddNutritionFragment;
 import com.glakshya2.healthmanager.nutrition.NutritionFragment;
 import com.glakshya2.healthmanager.profile.ProfileFragment;
 import com.glakshya2.healthmanager.records.AddHealthRecordsFragment;
 import com.glakshya2.healthmanager.records.HealthRecordsFragment;
+import com.glakshya2.healthmanager.records.ViewRecord;
 import com.glakshya2.healthmanager.reminders.AddReminderFragment;
 import com.glakshya2.healthmanager.reminders.RemindersFragment;
+import com.glakshya2.healthmanager.schema.History;
 import com.glakshya2.healthmanager.schema.Nutrition;
 import com.glakshya2.healthmanager.schema.Profile;
 import com.glakshya2.healthmanager.schema.User;
 import com.glakshya2.healthmanager.tracking.HealthTrackingFragment;
+import com.glakshya2.healthmanager.utils.ChildToHost;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Nutrition");
             NutritionFragment nutritionFragment = (NutritionFragment) fragment;
             if (user != null) {
-                nutritionFragment.recieveData(user.getNutrition());
+                nutritionFragment.receiveData(user.getNutrition());
             }
         } else if (fragment instanceof ProfileFragment) {
             toolbar.setTitle("Profile");
@@ -149,12 +153,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Add Health Record");
         } else if (fragment instanceof HealthRecordsFragment) {
             toolbar.setTitle("Health Records");
+            HealthRecordsFragment healthRecordsFragment = (HealthRecordsFragment) fragment;
+            if (user != null) {
+                healthRecordsFragment.receiveData(user.getHistory());
+            }
         } else if (fragment instanceof AddReminderFragment) {
             toolbar.setTitle("Add Reminder");
         } else if (fragment instanceof RemindersFragment) {
             toolbar.setTitle("Reminders");
         } else if (fragment instanceof HealthTrackingFragment) {
             toolbar.setTitle("Health Tracking");
+        } else if (fragment instanceof ViewRecord) {
+            toolbar.setTitle("View Record");
         }
     }
 
@@ -174,5 +184,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user.setNutrition(nutrition);
         databaseReference.setValue(user);
         loadFragment(new NutritionFragment());
+    }
+
+    @Override
+    public void transferData(History history) {
+        user.setHistory(history);
+        databaseReference.setValue(user);
+        loadFragment(new HealthRecordsFragment());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        if (currentFragment instanceof ViewRecord) {
+            loadFragment(new HealthRecordsFragment());
+        } else {
+            loadFragment(new HomeFragment());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.glakshya2.healthmanager;
+package com.glakshya2.healthmanager.auth;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.glakshya2.healthmanager.MainActivity;
+import com.glakshya2.healthmanager.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

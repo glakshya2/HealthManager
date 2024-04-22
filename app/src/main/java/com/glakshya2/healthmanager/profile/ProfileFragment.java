@@ -15,9 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.glakshya2.healthmanager.ChildToHost;
 import com.glakshya2.healthmanager.R;
 import com.glakshya2.healthmanager.schema.Profile;
+import com.glakshya2.healthmanager.utils.ChildToHost;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
