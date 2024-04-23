@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.glakshya2.healthmanager.auth.SignIn;
+import com.glakshya2.healthmanager.auth.Authorization;
 import com.glakshya2.healthmanager.home.HomeFragment;
 import com.glakshya2.healthmanager.nutrition.AddNutritionFragment;
 import com.glakshya2.healthmanager.nutrition.NutritionFragment;
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-
         navigationView.inflateMenu(R.menu.nav_menu);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -91,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference(firebaseUser.getUid() + "/");
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 101);
+        }
+        readData();
         user = new User();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -99,23 +105,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user == null) {
                     user = new User();
                 }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                loadFragment(new HomeFragment());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
-        loadFragment(new HomeFragment());
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 101);
-        }
-        readData();
-
     }
 
 
@@ -143,14 +144,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void signOut() {
+    public void signOut() {
         firebaseAuth.signOut();
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         GoogleSignIn.getClient(this, googleSignInOptions).revokeAccess()
-                .addOnCompleteListener(this, task -> startActivity(new Intent(this, SignIn.class)
+                .addOnCompleteListener(this, task -> startActivity(new Intent(this, Authorization.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
@@ -161,6 +162,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
         if (fragment instanceof HomeFragment) {
             toolbar.setTitle("Home");
+            HomeFragment homeFragment = (HomeFragment) fragment;
+            if (user != null) {
+                homeFragment.receiveData(user, fitnessData);
+            }
         } else if (fragment instanceof AddNutritionFragment) {
             toolbar.setTitle("Add Meal");
         } else if (fragment instanceof NutritionFragment) {
@@ -234,6 +239,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user.setReminderList(reminderList);
         databaseReference.setValue(user);
         loadFragment(new RemindersFragment());
+    }
+
+    @Override
+    public void logout() {
+        signOut();
     }
 
     @Override
@@ -347,5 +357,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((HealthTrackingFragment) fragment).receiveData(fitnessData);
         }
     }
+
 
 }

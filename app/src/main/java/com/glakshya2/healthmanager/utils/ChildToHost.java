@@ -17,4 +17,6 @@ public interface ChildToHost {
     void transferData(History history);
 
     void transferData(ReminderList reminderList);
+
+    void logout();
 }

@@ -22,7 +22,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".auth.SignIn"
+            android:name=".auth.Authorization"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

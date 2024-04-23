@@ -29,7 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Objects;
 
-public class SignIn extends AppCompatActivity {
+public class Authorization extends AppCompatActivity {
 
     Button googleSignInBtn;
     FirebaseAuth firebaseAuth;
