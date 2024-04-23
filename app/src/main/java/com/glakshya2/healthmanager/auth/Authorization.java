@@ -3,7 +3,7 @@ package com.glakshya2.healthmanager.auth;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,7 +31,7 @@ import java.util.Objects;
 
 public class Authorization extends AppCompatActivity {
 
-    Button googleSignInBtn;
+    ImageButton googleSignInBtn;
     FirebaseAuth firebaseAuth;
     GoogleSignInClient googleSignInClient;
     private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {

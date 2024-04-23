@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,12 +17,13 @@ import com.glakshya2.healthmanager.R;
 import com.glakshya2.healthmanager.schema.Meal;
 import com.glakshya2.healthmanager.schema.Nutrition;
 import com.glakshya2.healthmanager.utils.ChildToHost;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class NutritionFragment extends Fragment {
 
-    Button addMealBtn;
+    FloatingActionButton addMealBtn;
     TextView carbsTv, protienTv, fatTv, calTv;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;

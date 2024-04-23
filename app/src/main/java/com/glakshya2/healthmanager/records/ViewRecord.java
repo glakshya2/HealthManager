@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -72,13 +72,13 @@ public class ViewRecord extends Fragment {
         for (Files file : record.getFiles()) {
             TableRow row = (TableRow) LayoutInflater.from(getContext()).inflate(R.layout.file_row, null);
             TextView fileNameTv = row.findViewById(R.id.file_name);
-
-            Button downloadButton = row.findViewById(R.id.download_button);
+            ImageButton viewButton = row.findViewById(R.id.imageButton);
+            ImageButton downloadButton = row.findViewById(R.id.download_button);
 
             fileNameTv.setText(file.getName());
             downloadButton.setOnClickListener(v -> downloadFile(file.getUri(), file.getName()));
 
-            row.setOnClickListener(v -> {
+            viewButton.setOnClickListener(v -> {
                 String fileUri = file.getUri();
                 String fileExtension = MimeTypeMap.getFileExtensionFromUrl(fileUri);
                 if (isImageFile(fileExtension)) {
@@ -86,7 +86,6 @@ public class ViewRecord extends Fragment {
                 } else if (fileExtension.equalsIgnoreCase("pdf")) {
                     viewPdf(fileUri);
                 } else {
-                    // Handle other file types or display an error message
                     Toast.makeText(getContext(), "Unsupported file type", Toast.LENGTH_SHORT).show();
                 }
             });

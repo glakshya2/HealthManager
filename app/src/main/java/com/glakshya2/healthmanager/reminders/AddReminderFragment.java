@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ import com.glakshya2.healthmanager.schema.ReminderList;
 import com.glakshya2.healthmanager.utils.ChildToHost;
 import com.glakshya2.healthmanager.utils.DatePickerFragment;
 import com.glakshya2.healthmanager.utils.TimePickerFragment;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 
 public class AddReminderFragment extends Fragment {
@@ -31,7 +31,7 @@ public class AddReminderFragment extends Fragment {
 
     EditText titleEt, descriptionEt;
     TextView dateTv, timeTv;
-    Switch recurringSwitch;
+    SwitchMaterial recurringSwitch;
     Spinner recurrenceTypeSpinner;
     Button saveButton;
     ChildToHost childToHost;

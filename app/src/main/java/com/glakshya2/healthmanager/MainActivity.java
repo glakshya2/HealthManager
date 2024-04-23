@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setTitle("Reminders");
         } else if (menuItemId == R.id.profile) {
             loadFragment(new ProfileFragment());
+        } else if (menuItemId == R.id.home) {
+            loadFragment(new HomeFragment());
         } else if (menuItemId == R.id.logout) {
             signOut();
         }

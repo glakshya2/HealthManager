@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +16,14 @@ import com.glakshya2.healthmanager.R;
 import com.glakshya2.healthmanager.schema.Reminder;
 import com.glakshya2.healthmanager.schema.ReminderList;
 import com.glakshya2.healthmanager.utils.ChildToHost;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class RemindersFragment extends Fragment {
 
     ChildToHost childToHost;
-    Button addReminder;
+    FloatingActionButton addReminder;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     ReminderList reminderList;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,7 @@ import com.glakshya2.healthmanager.R;
 import com.glakshya2.healthmanager.schema.History;
 import com.glakshya2.healthmanager.schema.Record;
 import com.glakshya2.healthmanager.utils.ChildToHost;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class HealthRecordsFragment extends Fragment {
 
     ChildToHost childToHost;
-    Button addButton;
+    FloatingActionButton addButton;
     RecyclerView recyclerView;
     History history;
     RecyclerView.Adapter adapter;

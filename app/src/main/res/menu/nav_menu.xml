@@ -4,22 +4,34 @@
     tools:showIn="nav_view">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icons8_home_100"
+            android:title="Home" />
+        <item
             android:id="@+id/records"
+            android:icon="@drawable/icons8_records_100"
             android:title="Health Records" />
         <item
             android:id="@+id/tracking"
+            android:icon="@drawable/icons8_fitness_100"
             android:title="Health Tracking" />
         <item
             android:id="@+id/nutrition"
+            android:icon="@drawable/icons8_vegan_food_96"
             android:title="Nutrition" />
         <item
             android:id="@+id/reminders"
+            android:icon="@drawable/icons_8_reminder_96"
             android:title="Reminders" />
         <item
             android:id="@+id/profile"
+            android:icon="@drawable/icons8_male_user_96"
             android:title="Profile" />
         <item
             android:id="@+id/logout"
+            android:icon="@drawable/icons8_logout"
             android:title="Logout" />
     </group>
 </menu>

@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.play.services.auth)
 
     implementation(libs.work.runtime.ktx)
+    implementation(libs.play.services.base)
 
     implementation(libs.appcompat)
     implementation(libs.material)

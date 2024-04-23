@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/file_name"
@@ -9,12 +13,25 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="true"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:textStyle="bold" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/icons8_view_90"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        tools:visibility="visible" />
+
+    <ImageButton
         android:id="@+id/download_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/incons8_download_96"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        app:cornerRadius="16dp" />
 
 </TableRow>
