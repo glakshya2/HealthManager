@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +30,7 @@ import com.glakshya2.healthmanager.records.ViewRecord;
 import com.glakshya2.healthmanager.reminders.AddReminderFragment;
 import com.glakshya2.healthmanager.reminders.RemindersFragment;
 import com.glakshya2.healthmanager.reminders.ViewReminderFragment;
+import com.glakshya2.healthmanager.schema.FitnessData;
 import com.glakshya2.healthmanager.schema.History;
 import com.glakshya2.healthmanager.schema.Nutrition;
 import com.glakshya2.healthmanager.schema.Profile;
@@ -37,7 +39,12 @@ import com.glakshya2.healthmanager.schema.User;
 import com.glakshya2.healthmanager.tracking.HealthTrackingFragment;
 import com.glakshya2.healthmanager.utils.ChildToHost;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +53,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChildToHost {
 
@@ -58,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DatabaseReference databaseReference;
     FirebaseUser firebaseUser;
     User user;
+    FitnessData fitnessData = new FitnessData();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,10 +108,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         loadFragment(new HomeFragment());
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM}, 100);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 101);
+        }
+        readData();
+
     }
 
 
@@ -179,6 +193,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (fragment instanceof HealthTrackingFragment) {
             toolbar.setTitle("Health Tracking");
+            HealthTrackingFragment healthTrackingFragment = (HealthTrackingFragment) fragment;
+            if (fitnessData != null) {
+                healthTrackingFragment.receiveData(fitnessData);
+            }
         } else if (fragment instanceof ViewRecord) {
             toolbar.setTitle("View Record");
         } else if (fragment instanceof ViewReminderFragment) {
@@ -231,4 +249,103 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadFragment(new HomeFragment());
         }
     }
+
+    private void readData() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        AtomicInteger counter = new AtomicInteger();
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_MOVE_MINUTES, FitnessOptions.ACCESS_READ)
+                .build();
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        // Read Steps
+        Fitness.getHistoryClient(getApplicationContext(), account)
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(dataSet -> {
+                    int totalSteps = dataSet.isEmpty()
+                            ? 0
+                            : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                    fitnessData.setSteps(totalSteps);
+                    Log.d("fit_ness", "Cal: " + fitnessData.getCalories() + "Dist: " + fitnessData.getDistance() + "mins: " + fitnessData.getMoveMinutes() + "steps: " + fitnessData.getSteps());
+                    counter.getAndIncrement();
+                    if (counter.get() == 4) {
+                        sendFitnessData(currentFragment);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.d("fit_ness", e.getMessage());
+                });
+
+        // Read Calories
+        Fitness.getHistoryClient(getApplicationContext(), account)
+                .readDailyTotal(DataType.TYPE_CALORIES_EXPENDED)
+                .addOnSuccessListener(dataSet -> {
+                    float totalCalories = dataSet.isEmpty()
+                            ? 0
+                            : dataSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
+                    fitnessData.setCalories(totalCalories);
+                    Log.d("fit_ness", "Cal: " + fitnessData.getCalories() + "Dist: " + fitnessData.getDistance() + "mins: " + fitnessData.getMoveMinutes() + "steps: " + fitnessData.getSteps());
+                    counter.getAndIncrement();
+                    if (counter.get() == 4) {
+                        sendFitnessData(currentFragment);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle error
+                    Log.d("fit_ness", e.getMessage());
+
+                });
+
+        // Read Distance
+        Fitness.getHistoryClient(getApplicationContext(), account)
+                .readDailyTotal(DataType.TYPE_DISTANCE_DELTA)
+                .addOnSuccessListener(dataSet -> {
+                    float totalDistance = dataSet.isEmpty()
+                            ? 0
+                            : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
+                    fitnessData.setDistance(totalDistance);
+                    Log.d("fit_ness", "Cal: " + fitnessData.getCalories() + "Dist: " + fitnessData.getDistance() + "mins: " + fitnessData.getMoveMinutes() + "steps: " + fitnessData.getSteps());
+                    counter.getAndIncrement();
+                    if (counter.get() == 4) {
+                        sendFitnessData(currentFragment);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle error
+                    Log.d("fit_ness", e.getMessage());
+
+                });
+
+        // Read Move Minutes
+        Fitness.getHistoryClient(getApplicationContext(), account)
+                .readDailyTotal(DataType.TYPE_MOVE_MINUTES)
+                .addOnSuccessListener(dataSet -> {
+                    int totalMoveMinutes = dataSet.isEmpty()
+                            ? 0
+                            : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DURATION).asInt();
+                    fitnessData.setMoveMinutes(totalMoveMinutes);
+                    Log.d("fit_ness", "Cal: " + fitnessData.getCalories() + "Dist: " + fitnessData.getDistance() + "mins: " + fitnessData.getMoveMinutes() + "steps: " + fitnessData.getSteps());
+                    counter.getAndIncrement();
+                    if (counter.get() == 4) {
+                        sendFitnessData(currentFragment);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle error
+                    Log.d("fit_ness", e.getMessage());
+                });
+
+        Log.d("fit_ness", "Cal: " + fitnessData.getCalories() + "Dist: " + fitnessData.getDistance() + "mins: " + fitnessData.getMoveMinutes() + "steps: " + fitnessData.getSteps());
+    }
+
+    void sendFitnessData(Fragment fragment) {
+        if (fragment instanceof HealthTrackingFragment) {
+            ((HealthTrackingFragment) fragment).receiveData(fitnessData);
+        }
+    }
+
 }

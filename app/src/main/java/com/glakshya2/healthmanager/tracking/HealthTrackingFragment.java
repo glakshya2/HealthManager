@@ -4,62 +4,48 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.glakshya2.healthmanager.R;
+import com.glakshya2.healthmanager.schema.FitnessData;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HealthTrackingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HealthTrackingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    TextView steps, calories, distance, moveMin;
     public HealthTrackingFragment() {
         // Required empty public constructor
     }
+    FitnessData fitnessData;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HealthTracking.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HealthTrackingFragment newInstance(String param1, String param2) {
-        HealthTrackingFragment fragment = new HealthTrackingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void receiveData(FitnessData fitnessData) {
+        if (fitnessData != null) {
+            this.fitnessData = fitnessData;
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_health_tracking, container, false);
+        View view = inflater.inflate(R.layout.fragment_health_tracking, container, false);
+        steps = view.findViewById(R.id.stepsValueTv);
+        calories = view.findViewById(R.id.caloriesValueTv);
+        distance = view.findViewById(R.id.distanceValueTv);
+        moveMin = view.findViewById(R.id.moveMinsTv);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance) {
+        if (this.fitnessData != null) {
+            steps.setText(String.valueOf(this.fitnessData.getSteps()));
+            calories.setText(String.valueOf(this.fitnessData.getCalories()));
+            distance.setText(String.valueOf(this.fitnessData.getDistance()));
+            moveMin.setText(String.valueOf(this.fitnessData.getMoveMinutes()));
+        }
     }
 }
